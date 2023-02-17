@@ -47,7 +47,8 @@ class SearchProblem:
 class SingleFoodSearchProblem(SearchProblem):
     def __init__(self, startingGameState):
         # TODO 1
-        pass
+        self.state = startingGameState
+        
 
     def getStartState(self):
         # TODO 1
