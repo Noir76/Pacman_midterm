@@ -1,5 +1,6 @@
 import util
-
+from game import Directions
+from game import Actions
 
 class SearchProblem:
     """
@@ -47,24 +48,57 @@ class SearchProblem:
 class SingleFoodSearchProblem(SearchProblem):
     def __init__(self, startingGameState):
         # TODO 1
-        self.state = startingGameState
-        
+        self.start = startingGameState.getPacmanPosition() #x, y
+        self.walls = startingGameState.getWalls()
+
+        self.goal = self.start
+        foodGrid = startingGameState.getFood()
+        if startingGameState.getNumFood() > 0:
+            for i in range(foodGrid.width):
+                for j in range(foodGrid.height):
+                    if foodGrid[i][j]:
+                        self.goal = (i, j)
+
+        self._expanded = 0
+                    
 
     def getStartState(self):
         # TODO 1
-        pass
+        return self.start
 
     def isGoalState(self, state):
         # TODO 3
-        pass
+        return state == self.goal
 
     def getSuccessors(self, state):
         # TODO 4
-        pass
+        #REMEMBER TO REFACTOR
+        successors = []
+
+        for action in [Directions.NORTH, Directions.SOUTH, Directions.EAST, Directions.WEST]:
+            x,y = state
+            dx, dy = Actions.directionToVector(action)
+            nextx, nexty = int(x + dx), int(y + dy)
+            if not self.walls[nextx][nexty]:
+                nextState = (nextx, nexty)
+                cost = 1
+                successors.append( ( nextState, action, cost) )
+
+        return successors
 
     def getCostOfActions(self, actions):
         # TODO 5
-        pass
+        if actions == None: return 999999
+        x,y= self.getStartState()
+        cost = 0
+        for action in actions:
+            dx, dy = Actions.directionToVector(action)
+            x, y = int(x + dx), int(y + dy)
+            if self.walls[x][y]:
+                return 999999
+            cost += 1
+        return cost
+        
 
 
 class MultiFoodSearchProblem(SearchProblem):
