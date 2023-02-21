@@ -3,8 +3,7 @@ import random
 from game import Agent
 from game import Directions
 import search
-from problems import *
-
+import problems
 class GoWestAgent(Agent):
     def getAction(self, state):
         if Directions.WEST in state.getLegalPacmanActions():
@@ -21,12 +20,6 @@ class RandomAgent(Agent):
 
 
 class SearchAgent(Agent):
-    def __init__(self, fn, prob):
-        self.searchType = globals()[prob]
-        func = getattr(search, fn)
-        self.searchFunction = func
-
-
     def registerInitialState(self, state):
         """
         This is the first time that the agent sees the layout of the game
@@ -37,9 +30,10 @@ class SearchAgent(Agent):
         state: a GameState object (pacman.py)
         """
         # TODO 11
-        problem = self.searchType(state) # Makes a new search problem
-        self.actions  = self.searchFunction(problem) # Find a path
-        totalCost = problem.getCostOfActions(self.actions)
+        problem = self.searchType(state)
+        self.actions = self.searchFunction(problem)
+        cost = problem.getCostOfActions(self.actions)
+        print("Total cost of path:", cost)
 
     def getAction(self, state):
         """
@@ -50,31 +44,36 @@ class SearchAgent(Agent):
         state: a GameState object (pacman.py)
         """
         # TODO 12
-        if 'actionIndex' not in dir(self): self.actionIndex = 0
-        i = self.actionIndex
-        self.actionIndex += 1
-        if i < len(self.actions):
-            return self.actions[i]
+        if 'index' not in dir(self): 
+            self.index = 0
+        else:
+            self.index += 1
+
+        if self.index < len(self.actions) and state.getNumFood() > 0:
+            return self.actions[self.index]
         else:
             return Directions.STOP
 
 
 class BFSFoodSearchAgent(SearchAgent):
     # TODO 13
-    def __init__(self):
-        self.searchFunction = lambda prob: search.bfs()
-        self.searchType = SingleFoodSearchProblem
-
+    def __init__(self, prob):
+        self.searchFunction = search.bfs
+        self.searchType = getattr(problems, prob)
 
 
 class DFSFoodSearchAgent(SearchAgent):
     # TODO 14
-    pass
+    def __init__(self, prob):
+        self.searchFunction = search.dfs
+        self.searchType = getattr(problems, prob)
 
 
 class UCSFoodSearchAgent(SearchAgent):
     # TODO 15
-    pass
+     def __init__(self, prob):
+        self.searchFunction = search.ucs
+        self.searchType = getattr(problems, prob)
 
 
 class AStarFoodSearchAgent(SearchAgent):

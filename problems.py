@@ -63,7 +63,7 @@ class SingleFoodSearchProblem(SearchProblem):
                     
 
     def getStartState(self):
-        # TODO 1
+        # TODO 2
         return self.start
 
     def isGoalState(self, state):
@@ -72,31 +72,41 @@ class SingleFoodSearchProblem(SearchProblem):
 
     def getSuccessors(self, state):
         # TODO 4
-        #REMEMBER TO REFACTOR
         successors = []
+        directions = [Directions.NORTH, Directions.EAST, Directions.WEST, Directions.SOUTH]
 
-        for action in [Directions.NORTH, Directions.SOUTH, Directions.EAST, Directions.WEST]:
-            x,y = state
+        for action in directions:
+            x, y = state
             dx, dy = Actions.directionToVector(action)
-            nextx, nexty = int(x + dx), int(y + dy)
+
+            nextx = int(x + dx)
+            nexty = int(y + dy)
+
             if not self.walls[nextx][nexty]:
                 nextState = (nextx, nexty)
                 cost = 1
-                successors.append( ( nextState, action, cost) )
+                successors.append((nextState, action, cost))
 
         return successors
 
     def getCostOfActions(self, actions):
         # TODO 5
-        if actions == None: return 999999
-        x,y= self.getStartState()
+        if actions == None: 
+            return float("inf")
+
+        x, y = self.getStartState()
+
         cost = 0
         for action in actions:
             dx, dy = Actions.directionToVector(action)
-            x, y = int(x + dx), int(y + dy)
+            x = int(x + dx)
+            y = int(y + dy)
+            
             if self.walls[x][y]:
-                return 999999
+                return float("inf")
+
             cost += 1
+
         return cost
         
 

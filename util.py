@@ -3,7 +3,7 @@ import random
 import sys
 
 import signa as signa
-
+import heapq
 
 class FixedRandom:
     def __init__(self):
@@ -108,35 +108,67 @@ class FixedRandom:
 
 class Stack:
     # TODO 23
-    pass
+    def __init__(self):
+        self.items = []
+
+    def isEmpty(self):
+        return self.items == []
+
+    def push(self,item):
+        self.items.append(item)
+
+    def pop(self):
+        return self.items.pop()
+
+    def last(self):
+        return self.items[-1]
 
 
 class Queue:
     # TODO 24
-    "A container with a first-in-first-out (FIFO) queuing policy."
     def __init__(self):
-        self.list = []
-
-    def push(self,item):
-        "Enqueue the 'item' into the queue"
-        self.list.insert(0,item)
-
-    def pop(self):
-        """
-          Dequeue the earliest enqueued item still in the queue. This
-          operation removes the item from the queue.
-        """
-        return self.list.pop()
+        self.items = []
 
     def isEmpty(self):
-        "Returns true if the queue is empty"
-        return len(self.list) == 0
+        return self.items == []
 
+    def push(self,item):
+        self.items.insert(0,item)
+
+    def pop(self):
+        return self.items.pop()
 
 class PriorityQueue:
     # TODO 25
-    pass
+    #https://docs.python.org/3/library/heapq.html
+    def __init__(self):
+        self.items = []
+        self.index = 0
 
+    def isEmpty(self):
+        return self.items == []
+
+    def push(self, item, priority):
+        heapq.heappush(self.items, (priority, self.index, item))
+        self.index += 1
+
+    def pop(self):
+        a, b, item = heapq.heappop(self.items)
+        return item
+
+    def update(self, item, newPriority):
+        for i, entry in enumerate(self.items):
+            curPriority, curIndex, curItem = entry
+            if curItem == item:
+                if curPriority <= newPriority:
+                    return
+                else:
+                    del self.items[i]
+                    self.items.append((newPriority, curIndex, curItem))
+                    heapq.heapify(self.items)
+                    return
+        
+        self.push(item, newPriority)
 
 class PriorityQueueWithFunction(PriorityQueue):
     '''
