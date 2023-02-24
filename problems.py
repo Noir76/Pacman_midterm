@@ -59,7 +59,6 @@ class SingleFoodSearchProblem(SearchProblem):
                     if foodGrid[i][j]:
                         self.goal = (i, j)
 
-        self._expanded = 0
                     
 
     def getStartState(self):
@@ -115,9 +114,6 @@ class MultiFoodSearchProblem(SearchProblem):
     def __init__(self, startingGameState):
         self.start = (startingGameState.getPacmanPosition(), startingGameState.getFood())
         self.walls = startingGameState.getWalls()
-        self.startingGameState = startingGameState
-        self._expanded = 0 # DO NOT CHANGE
-        self.heuristicInfo = {} # A dictionary for the heuristic to store information
 
     def getStartState(self):
         return self.start
@@ -127,28 +123,43 @@ class MultiFoodSearchProblem(SearchProblem):
 
     def getSuccessors(self, state):
         successors = []
-        self._expanded += 1
-        for direction in [Directions.NORTH, Directions.SOUTH, Directions.EAST, Directions.WEST]:
+        directions = [Directions.NORTH, Directions.EAST, Directions.WEST, Directions.SOUTH]
+        
+        for action in directions:
             x, y = state[0]
-            dx, dy = Actions.directionToVector(direction)
-            nextx, nexty = int(x + dx), int(y + dy)
+            dx, dy = Actions.directionToVector(action)
+            
+            nextx =  int(x + dx)
+            nexty = int(y + dy)
+            
             if not self.walls[nextx][nexty]:
-                nextFood = state[1].copy()
-                nextFood[nextx][nexty] = False
-                successors.append((((nextx, nexty), nextFood), direction, 1))
+                nextState = (nextx, nexty)
+                cost = 1
+                remainFood = state[1].copy()
+                remainFood[nextx][nexty] = False
+                successors.append(((nextState, remainFood), action, cost))
+        
         return successors
 
     def getCostOfActions(self, actions):
-        x, y = self.getStartState()[0]
+        if actions == None: 
+            return float("inf")
+
+        x, y = self.getStartState()
+
         cost = 0
         for action in actions:
             dx, dy = Actions.directionToVector(action)
-            x, y = int(x + dx), int(y + dy)
+            x = int(x + dx)
+            y = int(y + dy)
+            
             if self.walls[x][y]:
-                return 999999
-            cost += 1
-        return cost
+                return float("inf")
 
+            cost += 1
+
+        return cost
+        
 
 
     

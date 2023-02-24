@@ -145,10 +145,14 @@ def multiFoodSearchHeuristic(state, problem=None):
     A heuristic function for the problem of multi-food search
     """
     # TODO 21
-    pass
+    current_pos = state
+    remaining_food = problem.food.asList()
+    if not remaining_food:
+        return 0
+    return sum(abs(current_pos[0] - food[0]) + abs(current_pos[1] - food[1]) for food in remaining_food)
 
 
-def aStarSearch(problem, heuristic=singleFoodSearchHeuristic):
+def aStarSearch(problem, heuristic=nullHeuristic):
     '''
     return a path to the goal
     '''
