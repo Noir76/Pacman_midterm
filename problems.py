@@ -113,21 +113,42 @@ class SingleFoodSearchProblem(SearchProblem):
 
 class MultiFoodSearchProblem(SearchProblem):
     def __init__(self, startingGameState):
-        # TODO 6
-        pass
+        self.start = (startingGameState.getPacmanPosition(), startingGameState.getFood())
+        self.walls = startingGameState.getWalls()
+        self.startingGameState = startingGameState
+        self._expanded = 0 # DO NOT CHANGE
+        self.heuristicInfo = {} # A dictionary for the heuristic to store information
 
     def getStartState(self):
-        # TODO 7
-        pass
+        return self.start
 
     def isGoalState(self, state):
-        # TODO 8
-        pass
+        return state[1].count() == 0
 
     def getSuccessors(self, state):
-        # TODO 9
-        pass
+        successors = []
+        self._expanded += 1
+        for direction in [Directions.NORTH, Directions.SOUTH, Directions.EAST, Directions.WEST]:
+            x, y = state[0]
+            dx, dy = Actions.directionToVector(direction)
+            nextx, nexty = int(x + dx), int(y + dy)
+            if not self.walls[nextx][nexty]:
+                nextFood = state[1].copy()
+                nextFood[nextx][nexty] = False
+                successors.append((((nextx, nexty), nextFood), direction, 1))
+        return successors
 
     def getCostOfActions(self, actions):
-        # TODO 10
-        pass
+        x, y = self.getStartState()[0]
+        cost = 0
+        for action in actions:
+            dx, dy = Actions.directionToVector(action)
+            x, y = int(x + dx), int(y + dy)
+            if self.walls[x][y]:
+                return 999999
+            cost += 1
+        return cost
+
+
+
+    

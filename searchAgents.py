@@ -78,4 +78,6 @@ class UCSFoodSearchAgent(SearchAgent):
 
 class AStarFoodSearchAgent(SearchAgent):
     # TODO 16
-    pass
+     def __init__(self, prob):
+        self.searchFunction = search.astar
+        self.searchType = getattr(problems, prob)

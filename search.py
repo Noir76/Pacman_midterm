@@ -135,7 +135,9 @@ def singleFoodSearchHeuristic(state, problem=None):
     A heuristic function for the problem of single food search
     """
     # TODO 20
-    pass
+    current_pos=state 
+    food=problem.food.asList()[0]
+    return abs(current_pos[0]-food[0])+abs(current_pos[1]-food[1])
 
 
 def multiFoodSearchHeuristic(state, problem=None):
@@ -151,7 +153,34 @@ def aStarSearch(problem, heuristic=nullHeuristic):
     return a path to the goal
     '''
     # TODO 22
+    initState = problem.getStartState()
+    
+    frontier = util.PriorityQueue()
 
+    explored = []
+
+    frontier.push((initState, [], 0), 0)
+
+    while frontier:
+        curState, curAct, curCost = frontier.pop()
+        
+        if problem.isGoalState(curState):
+            return curAct
+        
+        if curState not in explored:
+            explored.append(curState)
+
+            childs = problem.getSuccessors(curState)
+
+            for child in childs:
+                childState, childAct, childCost = child
+                toltalAct = curAct + [childAct]
+                totalCost = curCost + childCost
+                priority = totalCost + heuristic(childState, problem)
+
+                frontier.update((childState, toltalAct, totalCost), priority)
+
+    return curAct
 
 # Abbreviations
 bfs = breadthFirstSearch
