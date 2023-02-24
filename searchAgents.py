@@ -62,28 +62,28 @@ class SearchAgent(Agent):
 
 class BFSFoodSearchAgent(SearchAgent):
     # TODO 13
-    def __init__(self, prob):
+    def __init__(self, prob="SingleFoodSearchProblem"):
         self.searchFunction = search.bfs
         self.searchType = getattr(problems, prob)
 
 
 class DFSFoodSearchAgent(SearchAgent):
     # TODO 14
-    def __init__(self, prob):
+    def __init__(self, prob="SingleFoodSearchProblem"):
         self.searchFunction = search.dfs
         self.searchType = getattr(problems, prob)
 
 
 class UCSFoodSearchAgent(SearchAgent):
     # TODO 15
-     def __init__(self, prob):
+     def __init__(self, prob="SingleFoodSearchProblem"):
         self.searchFunction = search.ucs
         self.searchType = getattr(problems, prob)
 
 
 class AStarFoodSearchAgent(SearchAgent):
     # TODO 16
-     def __init__(self, prob, h="singleFoodSearchHeuristic"):
+     def __init__(self, prob="SingleFoodSearchProblem", h="singleFoodSearchHeuristic"):
         self.searchFunction = search.astar
         self.searchType = getattr(problems, prob)
         self.heuristic = getattr(search, h)
