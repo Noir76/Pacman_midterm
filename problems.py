@@ -129,7 +129,7 @@ class MultiFoodSearchProblem(SearchProblem):
             x, y = state[0]
             dx, dy = Actions.directionToVector(action)
             
-            nextx =  int(x + dx)
+            nextx = int(x + dx)
             nexty = int(y + dy)
             
             if not self.walls[nextx][nexty]:
@@ -145,7 +145,7 @@ class MultiFoodSearchProblem(SearchProblem):
         if actions == None: 
             return float("inf")
 
-        x, y = self.getStartState()
+        x, y = self.getStartState()[0]
 
         cost = 0
         for action in actions:
