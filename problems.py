@@ -112,16 +112,20 @@ class SingleFoodSearchProblem(SearchProblem):
 
 class MultiFoodSearchProblem(SearchProblem):
     def __init__(self, startingGameState):
+        # TODO 6
         self.start = (startingGameState.getPacmanPosition(), startingGameState.getFood())
         self.walls = startingGameState.getWalls()
 
     def getStartState(self):
+        # TODO 7
         return self.start
 
     def isGoalState(self, state):
+        # TODO 8
         return state[1].count() == 0
 
     def getSuccessors(self, state):
+        # TODO 9
         successors = []
         directions = [Directions.NORTH, Directions.EAST, Directions.WEST, Directions.SOUTH]
         
@@ -142,6 +146,7 @@ class MultiFoodSearchProblem(SearchProblem):
         return successors
 
     def getCostOfActions(self, actions):
+        # TODO 10
         if actions == None: 
             return float("inf")
 
