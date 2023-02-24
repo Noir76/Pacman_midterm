@@ -135,9 +135,9 @@ def singleFoodSearchHeuristic(state, problem=None):
     A heuristic function for the problem of single food search
     """
     # TODO 20
-    current_pos=state 
-    food=problem.goal
-    return abs(current_pos[0]-food[0])+abs(current_pos[1]-food[1])
+    pacman_pos = state 
+    food_pos = problem.goal
+    return abs(pacman_pos[0] - food_pos[0])+abs(pacman_pos[1] - food_pos[1])
 
 
 def multiFoodSearchHeuristic(state, problem=None):
@@ -145,11 +145,17 @@ def multiFoodSearchHeuristic(state, problem=None):
     A heuristic function for the problem of multi-food search
     """
     # TODO 21
-    current_pos = state
-    remaining_food = problem.food.asList()
-    if not remaining_food:
+    pacman_pos = state 
+    food_list = problem.food.asList()
+    if food_list.empty():
         return 0
-    return sum(abs(current_pos[0] - food[0]) + abs(current_pos[1] - food[1]) for food in remaining_food)
+    
+    result = 0
+    for food in food_list:
+        dist = abs(pacman_pos[0] - food[0])+abs(pacman_pos[1] - food[1])
+        result = sum(result, dist)
+
+    return result
 
 
 def aStarSearch(problem, heuristic=nullHeuristic):
