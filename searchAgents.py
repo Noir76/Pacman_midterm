@@ -31,7 +31,12 @@ class SearchAgent(Agent):
         """
         # TODO 11
         problem = self.searchType(state)
-        self.actions = self.searchFunction(problem)
+
+        if 'h' not in self.searchFunction.__code__.co_varnames:
+            self.actions = self.searchFunction(problem)
+        else:
+            self.actions = self.searchFunction(problem, self.heuristic)
+
         cost = problem.getCostOfActions(self.actions)
         print("Total cost of path:", cost)
 
@@ -78,6 +83,7 @@ class UCSFoodSearchAgent(SearchAgent):
 
 class AStarFoodSearchAgent(SearchAgent):
     # TODO 16
-     def __init__(self, prob):
+     def __init__(self, prob, h="singleFoodSearchHeuristic"):
         self.searchFunction = search.astar
         self.searchType = getattr(problems, prob)
+        self.heuristic = getattr(search, h)

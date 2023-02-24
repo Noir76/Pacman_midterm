@@ -136,7 +136,7 @@ def singleFoodSearchHeuristic(state, problem=None):
     """
     # TODO 20
     current_pos=state 
-    food=problem.food.asList()[0]
+    food=problem.goal
     return abs(current_pos[0]-food[0])+abs(current_pos[1]-food[1])
 
 
@@ -148,7 +148,7 @@ def multiFoodSearchHeuristic(state, problem=None):
     pass
 
 
-def aStarSearch(problem, heuristic=nullHeuristic):
+def aStarSearch(problem, heuristic=singleFoodSearchHeuristic):
     '''
     return a path to the goal
     '''
