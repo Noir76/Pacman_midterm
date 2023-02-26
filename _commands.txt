@@ -1,3 +1,4 @@
 python pacman.py
 python pacman.py -l <layout_file> -p <search agent> -z <zoom level>
-python pacman.py -p AStarFoodSearchAgent -a prob=SingleFoodSearchProblem -l bigMaze.lay
+python pacman.py -p AStarFoodSearchAgent -l bigMaze.lay 
+python pacman.py -p AStarFoodSearchAgent -a prob=MultiFoodSearchProblem -l bigMaze_multi.lay 
