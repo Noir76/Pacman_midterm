@@ -83,7 +83,11 @@ class UCSFoodSearchAgent(SearchAgent):
 
 class AStarFoodSearchAgent(SearchAgent):
     # TODO 16
-     def __init__(self, prob="SingleFoodSearchProblem", h="singleFoodSearchHeuristic"):
+     def __init__(self, prob="SingleFoodSearchProblem"):
         self.searchFunction = search.astar
         self.searchType = getattr(problems, prob)
-        self.heuristic = getattr(search, h)
+        if prob == "MultiFoodSearchProblem":
+            self.heuristic = getattr(search, "multiFoodSearchHeuristic") 
+        else:
+           self.heuristic = getattr(search, "singleFoodSearchHeuristic")
+
