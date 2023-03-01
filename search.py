@@ -145,8 +145,8 @@ def multiFoodSearchHeuristic(state, problem=None):
     A heuristic function for the problem of multi-food search
     """
     # TODO 21
-    pacman_pos = state 
-    food_list = problem.food.asList()
+    pacman_pos = state[0] 
+    food_list = state[1].asList()
     if food_list.empty():
         return 0
     
