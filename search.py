@@ -187,7 +187,6 @@ def aStarSearch(problem, heuristic=nullHeuristic):
                 toltalAct = curAct + [childAct]
                 totalCost = curCost + childCost
                 priority = totalCost + heuristic(childState, problem)
-
                 frontier.update((childState, toltalAct, totalCost), priority)
 
     return curAct
